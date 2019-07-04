@@ -154,11 +154,10 @@ def render_variable(env, raw, cookiecutter_dict):
     if raw is None:
         return None
     elif isinstance(raw, dict):
-        return {
-            render_variable(env, k, cookiecutter_dict):
-                render_variable(env, v, cookiecutter_dict)
-            for k, v in raw.items()
-        }
+        return OrderedDict((
+            render_variable(env, k, cookiecutter_dict),
+            render_variable(env, v, cookiecutter_dict),
+        ) for k, v in raw.items())
     elif isinstance(raw, list):
         return [
             render_variable(env, v, cookiecutter_dict)
